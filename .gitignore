@@ -7,3 +7,5 @@ terraform/workspace/AwsProject/00_eks/.terraform/providers/registry.terraform.io
 
 # Optional: Ignore all Windows AMD64 provider binaries under .terraform
 terraform/workspace/AwsProject/00_eks/.terraform/providers/registry.terraform.io/hashicorp/aws/*/windows_amd64/
+
+terraform.tfstate
