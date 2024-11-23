@@ -39,7 +39,7 @@ resource "aws_iam_group_policy_attachment" "security_team_waf_shield" {
 # 보안팀에 AmazonS3FullAccess 정책 부여
 resource "aws_iam_group_policy_attachment" "security_team_s3" {
   group      = aws_iam_group.security_team.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
 # 보안팀에 IAMFullAccess 정책 부여
@@ -57,5 +57,7 @@ resource "aws_iam_group_policy_attachment" "security_team_sns" {
 # 보안팀에 AmazonAPIGatewayAdministrator 정책 부여
 resource "aws_iam_group_policy_attachment" "security_team_gateway" {
   group      = aws_iam_group.security_team.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess"
 }
+
+
