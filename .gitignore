@@ -1,0 +1,9 @@
+# Terraform-specific ignore patterns
+.terraform
+.terraform/modules
+
+# Ignore specific provider files
+terraform/workspace/AwsProject/00_eks/.terraform/providers/registry.terraform.io/hashicorp/aws/5.75.0/windows_amd64/
+
+# Optional: Ignore all Windows AMD64 provider binaries under .terraform
+terraform/workspace/AwsProject/00_eks/.terraform/providers/registry.terraform.io/hashicorp/aws/*/windows_amd64/
