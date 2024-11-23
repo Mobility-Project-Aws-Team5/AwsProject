@@ -43,3 +43,14 @@ resource "aws_iam_group_policy_attachment" "security_team_iam" {
   policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
 }
 
+# 보안팀에 AmazonSNSFullAccess 정책 부여
+resource "aws_iam_group_policy_attachment" "security_team_sns" {
+  group      = aws_iam_group.security_team.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+}
+
+# 보안팀에 AmazonAPIGatewayAdministrator 정책 부여
+resource "aws_iam_group_policy_attachment" "security_team_gateway" {
+  group      = aws_iam_group.security_team.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator"
+}
