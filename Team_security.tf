@@ -2,6 +2,10 @@ resource "aws_iam_user" "gyudol" {
   name = "gyudol"
 }
 
+resource "aws_iam_user" "yearhui" {
+  name = "yearhui"
+}
+
 resource "aws_iam_group" "security_team" {
   name = "security_team"
 }
