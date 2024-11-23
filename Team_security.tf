@@ -14,6 +14,7 @@ resource "aws_iam_group_membership" "security_team_membership" {
   name = "security_team_membership"
   users = [
     aws_iam_user.gyudol.name,
+    aws_iam_user.yearhui.name,
   ]
   group = aws_iam_group.security_team.name
 }
