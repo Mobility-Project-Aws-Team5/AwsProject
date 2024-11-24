@@ -119,9 +119,6 @@ output "bastion_ip" {
   description = "bastion-host public IP"
 }
 
-output "oidc_provider_arn" {
-  value = module.eks.oidc_provider_arn
-}
 
 /*
 C:\terraform\workspace> cd .\00_eks\
