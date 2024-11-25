@@ -69,7 +69,7 @@ jobs:
         git pull origin test --no-rebase --allow-unrelated-histories
 
         # `dev` 브랜치의 변경 사항 병합
-        git merge origin/dev --no-commit --no-ff
+        git merge origin/dev --no-ff
         
         #스테이징
         git add *
