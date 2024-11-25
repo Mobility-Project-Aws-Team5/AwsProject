@@ -71,7 +71,7 @@ jobs:
         git commit -m "Commit changes in dev before merge"
         
         # `dev` 브랜치에 푸시 (GitHub Token 사용)
-        git push https://github.com:${{ secrets.GITHUB_TOKEN }}@github.com/Mobility-Project-Aws-Team5/AwsProject.git
+        git push https://github.com:${{ secrets.GITHUB_TOKEN }}@github.com/Mobility-Project-Aws-Team5/AwsProject.git dev
 
 
 
@@ -85,5 +85,5 @@ jobs:
         git commit -m "Sync changes from dev branch"
 
         # 병합 후 `test` 브랜치에 푸시 (GitHub Token 사용)
-        git push https://github.com/${{ github.repository }}:${{ secrets.GITHUB_TOKEN }}@github.com/Mobility-Project-Aws-Team5/AwsProject.git test
+        git push https://github.com:${{ secrets.GITHUB_TOKEN }}@github.com/Mobility-Project-Aws-Team5/AwsProject.git test
 
