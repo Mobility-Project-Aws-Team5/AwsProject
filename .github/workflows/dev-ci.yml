@@ -62,20 +62,9 @@ jobs:
         git config --global user.name "junsu1211"
         git config --global user.email "junsu1211@gmail.com"
 
-        # `test` 브랜치 체크아웃
-        git checkout test || git checkout -b test
+        git fetch --all
+        git checkout test
 
-        # 원격 `test` 브랜치의 변경 사항 가져오기
-        git pull origin test --no-rebase --allow-unrelated-histories
+        git reset --hard origin/dev
 
-        # `dev` 브랜치의 변경 사항 병합
-        git merge origin/dev --no-ff
-        
-        #스테이징
-        git add *
-
-        # 병합된 내용 커밋
-        git commit -m "Sync changes from dev branch"
-
-        # 병합 후 `test` 브랜치에 푸시 (GitHub Token 사용)
-        git push origin test
+        git push origin test --force
