@@ -50,12 +50,16 @@ jobs:
       working-directory: ./car_platform_app
       run: flutter build web
     
-    # 테스트 단계
-    - name: Run Integration Tests
-      uses: username/xvfb-action@v1.1.2
-      with:
-        run: flutter test integration_test -d linux -r github
+    # 분석
+    - name: analyze flutter
+      working-directory: ./car_platform_app
+      run: flutter analyze
 
+    # 테스팅
+    - name: testing flutter
+      working-directory: ./car_platform_app
+      run: flutter test
+    
     # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
