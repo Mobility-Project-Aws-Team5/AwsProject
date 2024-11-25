@@ -55,20 +55,17 @@ jobs:
     #   working-directory: ./car_platform_app/build
     #   run: docker build -t moonjs/dev-flt-web:latest .
 
-    #5 Test 브런치로 병합 작업
-    - name: Commit and push changes in dev, then merge into test
+    - name: Commit and push changes in dev
       run: |
         # Git 설정 (GitHub Actions에서 사용될 사용자 정보 설정)
         git config --global user.name "junsu1211"
         git config --global user.email "junsu1211@gmail.com"
 
-        git checkout test
-        git fetch origin dev
+        # 체크아웃
+        git checkout dev
 
-        git merge origin/dev --no-commit --no-ff
+        git add *
 
-        git checkout test -- ./carrot_server/.env ./car_platform_app/lib/src/providers/provider.dart
+        git commit -m "changed dev code"
 
-        git add .
-        git commit -m "merge"
-        git push origin test
+        git push origin dev
