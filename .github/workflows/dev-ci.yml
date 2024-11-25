@@ -62,10 +62,15 @@ jobs:
         git config --global user.name "junsu1211"
         git config --global user.email "junsu1211@gmail.com"
 
-        git fetch origin
+        git fetch --all
         git checkout test
 
-        git merge origin/dev --allow-unrelated-histories --no-commit --no-ff
-        git commit -m "Sync changes from dev branch"
+        git merge origin/dev --no-commit --no-ff
 
-        git push origin test
+        git checkout test -- ./carrot_server/.env ./car_platform_app/lib/src/providers/provider.dart ./car_platform_app/lib/src/shared/global.dart
+
+        git add .
+
+        git commit -m "Force merge dev and except last file"
+
+        git push origin test --force
