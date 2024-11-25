@@ -50,7 +50,7 @@ module "bastion_host_sg" {
   ingress_with_cidr_blocks = [
     {
       rule        = "ssh-tcp"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "112.218.95.58/0"
     },
     {
       rule        = "all-icmp"
