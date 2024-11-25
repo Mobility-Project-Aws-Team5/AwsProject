@@ -17,55 +17,40 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # # 2. Node.js 설정
-    # - name: Setup Node.js
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: '16'
+     # 2. Node.js 설정
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
 
-    # #. Docker 설정
-    # - name: Set up Docker Buildx
-    #   uses: docker/setup-buildx-action@v2
+     #. Docker 설정
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
     # # 3. Backend 작업
-    # - name: Install Backend Dependencies
-    #   working-directory: ./carrot_server
-    #   run: npm install
+    - name: Install Backend Dependencies
+      working-directory: ./carrot_server
+      run: npm install
     
-    # - name: docker build
-    #   working-directory: ./carrot_server
-    #   run: docker build -t moonjs/dev-flt-server:latest .
+    - name: docker build
+      working-directory: ./carrot_server
+      run: docker build -t moonjs/dev-flt-server:latest .
 
     # # flutter 설치
-    # - name: Install flutter
-    #   uses: subosito/flutter-action@v2
-    #   with:
-    #     flutter-version: '3.24.4'
+    - name: Install flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.4'
 
-    # # 4. Frontend 작업
-    # - name: Install Frontend Dependencies
-    #   working-directory: ./car_platform_app
-    #   run: flutter pub get
+      #4. Frontend 작업
+    - name: Install Frontend Dependencies
+      working-directory: ./car_platform_app
+      run: flutter pub get
 
-    # - name: build flutter web
-    #   working-directory: ./car_platform_app
-    #   run: flutter build web
+    - name: build flutter web
+      working-directory: ./car_platform_app
+      run: flutter build web
 
-    # - name: build docker
-    #   working-directory: ./car_platform_app/build
-    #   run: docker build -t moonjs/dev-flt-web:latest .
-
-    - name: Commit and push changes in dev
-      run: |
-        # Git 설정 (GitHub Actions에서 사용될 사용자 정보 설정)
-        git config --global user.name "junsu1211"
-        git config --global user.email "junsu1211@gmail.com"
-
-        # 체크아웃
-        git checkout dev
-
-        git add *
-
-        git commit -m "changed dev code"
-
-        git push origin dev
+    - name: build docker
+      working-directory: ./car_platform_app/build
+      run: docker build -t moonjs/dev-flt-web:latest .
