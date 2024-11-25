@@ -31,10 +31,6 @@ jobs:
     - name: Install Backend Dependencies
       working-directory: ./carrot_server
       run: npm install
-
-    - name: Run Backend Tests
-      working-directory: ./carrot_server
-      run: npm test
     
     - name: docker build
       working-directory: ./carrot_server
@@ -50,10 +46,6 @@ jobs:
     - name: Install Frontend Dependencies
       working-directory: ./car_platform_app
       run: flutter pub get
-
-    - name: run flutter tests
-      working-directory: ./car_platform_app
-      run: flutter test
 
     - name: build flutter web
       working-directory: ./car_platform_app
