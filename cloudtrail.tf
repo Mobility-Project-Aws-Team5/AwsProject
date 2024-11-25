@@ -22,10 +22,33 @@ resource "aws_iam_role" "cloudtrail_cloudwatch_role" {
   })
 }
 
+resource "aws_kms_key" "mykey" {
+  description             = "This key is used to encrypt bucket objects"
+  deletion_window_in_days = 10
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Id      = "key-default-1",
+    Statement = [
+      {
+        Sid       = "EnableIAMUserPermissions",
+        Effect    = "Allow",
+        Principal = {
+          AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        Action    = "kms:*",
+        Resource  = "*"
+      }
+    ]
+  })
+}
+
+
+
+
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket = "cloudtrail-log-bucket-team5"
-  
-  acl = "private"
+  acl    = "private"
   force_destroy = true
 
   versioning {
@@ -35,11 +58,13 @@ resource "aws_s3_bucket" "cloudtrail_bucket" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
+      kms_master_key_id = aws_kms_key.mykey.arn
+      sse_algorithm     = "aws:kms"
     }
   }
 }
+}
+
 
 resource "aws_s3_bucket_policy" "cloudtrail_policy" {
   bucket = aws_s3_bucket.cloudtrail_bucket.id
