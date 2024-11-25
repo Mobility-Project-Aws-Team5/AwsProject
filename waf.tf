@@ -39,7 +39,6 @@ resource "aws_api_gateway_stage" "Test_gateway_stage" {
   stage_name    = "prod"
   rest_api_id   = aws_api_gateway_rest_api.Test_gateway.id
   deployment_id = aws_api_gateway_deployment.Test_gateway.id
-#   depends_on = [aws_api_gateway_deployment.Test_gateway]
 }
 
 # WAF 설정
@@ -123,8 +122,4 @@ resource "aws_wafv2_web_acl" "Test_Waf" {
   }
 }
 
-# WAF와 API Gateway 연동
-resource "aws_wafv2_web_acl_association" "Test_Waf_association" {
-  resource_arn = aws_api_gateway_stage.Test_gateway_stage.arn
-  web_acl_arn  = aws_wafv2_web_acl.Test_Waf.arn
-}
+
