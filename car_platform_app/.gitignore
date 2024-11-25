@@ -1,0 +1,158 @@
+# Flutter generated files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.framework
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android generated files
+.android/
+flutter_launcher_icons/
+
+# IntelliJ and Android Studio files
+.idea/
+*.iml
+
+# Visual Studio Code files
+.vscode/
+
+# Mac OS generated files
+.DS_Store
+
+# Miscellaneous
+*.log
+*.lock
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Byte-compiled / optimized / DLL files
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.exe
+*.o
+*.so
+
+# Python virtual environment
+.venv/
+env/
+ENV/
+
+# IDE files
+*.ipr
+*.iws
+*.dmg
+*.class
+
+# Compiled files
+*.out
+*.log
+
+# Firebase
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# Pub specific
+.pub/
+<<<<<<< HEAD
+=======
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Flutter generated files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.framework
+ios/Flutter/app.zip
+ios/Flutter/flutter_assets/
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+
+# Android generated files
+.android/
+flutter_launcher_icons/
+
+# IntelliJ and Android Studio files
+.idea/
+*.iml
+
+# Visual Studio Code files
+.vscode/
+
+# Mac OS generated files
+.DS_Store
+
+# Miscellaneous
+*.log
+*.lock
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Byte-compiled / optimized / DLL files
+*.class
+*.jar
+*.war
+*.ear
+*.dll
+*.exe
+*.o
+*.so
+
+# Python virtual environment
+.venv/
+env/
+ENV/
+
+# IDE files
+*.ipr
+*.iws
+*.dmg
+*.class
+
+# Compiled files
+*.out
+*.log
+
+# Firebase
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# Pub specific
+.pub/
+>>>>>>> 1703295b2e1bea4bb1879345a2b2770a46c90613
