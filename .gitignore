@@ -1,0 +1,9 @@
+# env파일 제외
+carrot_server/.env
+
+# 서버 url 설정 파일 제외
+car_platform_app/lib/src/providers/provider.dart
+
+# 22
+car_platform_app/lib/src/shared/global.dart
+
