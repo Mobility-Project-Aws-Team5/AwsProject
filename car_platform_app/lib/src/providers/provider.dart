@@ -5,7 +5,7 @@ class Provider extends GetConnect {
 
     @override
     void onInit() {
-      httpClient.baseUrl = 'https://devs.gyudol.click:3000';
+      httpClient.baseUrl = 'https://dev.gyudol.click:3000';
       httpClient.addRequestModifier<void>((request) {
         request.headers['Accept'] = 'application/json';
         if(request.url.toString().contains('/api/')){

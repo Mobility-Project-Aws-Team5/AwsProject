@@ -32,40 +32,49 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }} # Docker Hub 사용자명
         password: ${{ secrets.DOCKER_PASSWORD }} # Docker Hub 비밀번호
  
+    # # 3. Backend 작업
+    - name: Install Backend Dependencies
+      working-directory: ./carrot_server
+      run: npm install
+    
     - name: docker build
       working-directory: ./carrot_server
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/dev-flt-server:latest .
-      
+
+    # # flutter 설치
+    - name: Install flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.4'
+
+      #4. Frontend 작업
+    - name: Install Frontend Dependencies
+      working-directory: ./car_platform_app
+      run: flutter pub get
+    
+    # 빌드 단계
+    - name: build flutter web 
+      working-directory: ./car_platform_app
+      run: flutter build web
+    
+    # 분석
+    - name: analyze flutter
+      working-directory: ./car_platform_app
+      run: flutter analyze
+      continue-on-error: true
+
+    # 테스팅
+    - name: testing flutter
+      working-directory: ./car_platform_app
+      run: flutter test
+      continue-on-error: true
+
     # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
       run: docker build -t ${{ secrets.DOCKER_USERNAME }}/dev-flt-web:latest .
 
     - name: push docker image
-      working-directory: ./car_platform_app/build
       run: |
         docker push ${{ secrets.DOCKER_USERNAME }}/dev-flt-web:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/dev-flt-server:latest
-
-
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
-      with:
-          version: 'v1.28.0'
-
-      # 6. Kubeconfig 설정
-    - name: Configure kubeconfig
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}  # 클러스터 접근 토큰
-      run: |
-        mkdir -p ~/.kube
-        echo "${KUBECONFIG}" > ~/.kube/config
-
-      # 7. Kubernetes 적용
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl delete -f /home/ec2-user/kube/dev/web-deployment.yaml
-        kubectl apply -f /home/ec2-user/kube/dev/web-deployment.yaml
-        kubectl delete -f /home/ec2-user/kube/dev/was-deployment.yaml
-        kubectl apply -f /home/ec2-user/kube/dev/was-deployment.yaml
-
