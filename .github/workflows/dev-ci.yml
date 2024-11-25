@@ -56,21 +56,31 @@ jobs:
       run: docker build -t moonjs/dev-flt-web:latest .
 
     #5 Test 브런치로 병합 작업
-    - name: Merge dev into test
+    - name: Commit and push changes in dev, then merge into test
       run: |
         # Git 설정 (GitHub Actions에서 사용될 사용자 정보 설정)
         git config --global user.name "junsu"
         git config --global user.email "junsu1211@gmail.com"
-        
-        # `test` 브랜치 체크아웃
+    
+        # `dev` 브랜치 체크아웃
         git fetch origin
+        git checkout dev
+
+        # 변경 사항 커밋
+        git add .
+        git commit -m "Commit changes in dev before merge"
+    
+        # `dev` 브랜치에 푸시
+        git push origin dev
+
+        # `test` 브랜치 체크아웃
         git checkout test
 
-        # `dev` 브랜치의 변경사항 병합
-        git merge origin/dev --no-commit
+        # `dev` 브랜치의 변경 사항 병합
+        git merge origin/dev --no-commit --no-ff
 
         # 병합된 내용 커밋
         git commit -m "Sync changes from dev branch"
 
         # 병합 후 `test` 브랜치에 푸시
-        git push origin test 
+        git push origin test
