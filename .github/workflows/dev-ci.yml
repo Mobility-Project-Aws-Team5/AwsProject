@@ -40,7 +40,7 @@ jobs:
     - name: Install flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: 'stable'
+        flutter-version: '3.24.4'
 
     # 4. Frontend 작업
     - name: Install Frontend Dependencies
