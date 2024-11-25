@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - dev
-  pull_request:
-    branches:
-      - dev
+
 
 jobs:
   backend-and-frontend:
@@ -46,11 +44,19 @@ jobs:
     - name: Install Frontend Dependencies
       working-directory: ./car_platform_app
       run: flutter pub get
-
-    - name: build flutter web
+    
+    # 빌드 단계
+    - name: build flutter web 
       working-directory: ./car_platform_app
       run: flutter build web
+    
+    # 테스트 단계
+    - name: Run Integration Tests
+      uses: username/xvfb-action@v1.1.2
+      with:
+        run: flutter test integration_test -d linux -r github
 
+    # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
       run: docker build -t moonjs/dev-flt-web:latest .
