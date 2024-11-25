@@ -212,4 +212,7 @@ resource "aws_iam_role_policy" "ec2_state_change_policy" {
       }
     ]
   })
+
+  depends_on = [aws_cloudwatch_log_group.cloudtrail_logs]
 }
+
