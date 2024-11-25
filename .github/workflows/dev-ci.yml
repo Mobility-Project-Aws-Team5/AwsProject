@@ -63,11 +63,13 @@ jobs:
         git config --global user.email "junsu1211@gmail.com"
 
         # `test` 브랜치 체크아웃
-        git checkout -b test
+        git checkout test || git checkout -b test
 
         # `dev` 브랜치의 변경 사항 병합
         git merge origin/dev --no-commit --no-ff
 
+        git add *
+        
         # 병합된 내용 커밋
         git commit -m "Sync changes from dev branch"
 
