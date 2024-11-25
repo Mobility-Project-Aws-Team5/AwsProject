@@ -54,7 +54,7 @@ module "bastion_host_sg" {
     },
     {
       rule        = "all-icmp"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "112.218.95.58/0"
     }
   ]
   egress_with_cidr_blocks = [
