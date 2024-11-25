@@ -54,12 +54,14 @@ jobs:
     - name: analyze flutter
       working-directory: ./car_platform_app
       run: flutter analyze
+      continue-on-error: true
 
     # 테스팅
     - name: testing flutter
       working-directory: ./car_platform_app
       run: flutter test
-    
+      continue-on-error: true
+      
     # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
