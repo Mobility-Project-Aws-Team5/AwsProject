@@ -14,7 +14,7 @@ module "add_cluster_sg" {
   egress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "192.168.56.1/24"
     }
   ]
 }
@@ -35,7 +35,7 @@ module "add_node_sg" {
   egress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "192.168.56.1/24"
     }
   ]
 }
@@ -50,17 +50,17 @@ module "bastion_host_sg" {
   ingress_with_cidr_blocks = [
     {
       rule        = "ssh-tcp"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "192.168.56.1/24"
     },
     {
       rule        = "all-icmp"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "192.168.56.1/24"
     }
   ]
   egress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "192.168.56.1/24"
     }
   ]
 }
@@ -86,7 +86,7 @@ module "nat_sg" {
   egress_with_cidr_blocks = [
     {
       rule        = "all-all"
-      cidr_blocks = "0.0.0.0/0"
+      cidr_blocks = "192.168.56.1/24"
     }
   ]
 }
