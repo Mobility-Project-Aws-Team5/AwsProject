@@ -65,6 +65,9 @@ jobs:
         # `test` 브랜치 체크아웃
         git checkout test || git checkout -b test
 
+        # 원격 `test` 브랜치의 변경 사항 가져오기
+        git pull origin test --no-rebase
+        
         # `dev` 브랜치의 변경 사항 병합
         git merge origin/dev --no-commit --no-ff
         
