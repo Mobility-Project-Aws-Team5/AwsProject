@@ -62,9 +62,10 @@ jobs:
         git config --global user.name "junsu1211"
         git config --global user.email "junsu1211@gmail.com"
 
-        git fetch --all
+        git fetch origin
         git checkout test
 
-        git reset --hard origin/dev
+        git merge origin/dev --no-commit --no-ff
+        git commit -m "Sync changes from dev branch"
 
-        git push origin test --force
+        git push origin test
