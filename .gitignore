@@ -1,0 +1,7 @@
+./carrot_server/.env
+
+./car_platform_app/lib/src/providers/provider.dart
+
+./car_platform_app/lib/src/shared/global.dart
+
+.github/workflows
