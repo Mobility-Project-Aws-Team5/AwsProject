@@ -3,7 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'src/app.dart';
 import 'package:car_platform_app/src/shared/global.dart';
 
-// hello bro!ss
+// hello bro!ssa
 void main() async{
 
   //GetStorage 초기화
