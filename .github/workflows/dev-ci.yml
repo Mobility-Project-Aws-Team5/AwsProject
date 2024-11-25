@@ -52,7 +52,7 @@ jobs:
       run: flutter build web
 
     - name: build docker
-      working-directory: ./car_platform_app/build/web
+      working-directory: ./car_platform_app/build
       run: docker build -t moonjs/dev-flt-web:latest .
 
     #5 Test 브런치로 병합 작업
