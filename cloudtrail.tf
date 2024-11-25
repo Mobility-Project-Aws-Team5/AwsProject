@@ -5,6 +5,8 @@ resource "aws_cloudwatch_log_group" "cloudtrail_logs" {
   retention_in_days = 30
 }
 
+
+
 resource "aws_iam_role" "cloudtrail_cloudwatch_role" {
   name = "cloudtrail-cloudwatch-role"
 

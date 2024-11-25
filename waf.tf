@@ -1,125 +1,79 @@
-# API Gateway 설정
-resource "aws_api_gateway_rest_api" "Test_gateway" {
-  name        = "Test-gateway"
-  description = "API Gateway"
-}
+# # WAF 로그 전송 설정
+# resource "aws_wafv2_web_acl_logging_configuration" "waf_logging" {
+#   resource_arn = "arn:aws:wafv2:ap-northeast-2:557690622101:regional/webacl/Test-waf-acl/c647f522-c196-4f90-ad92-be2999f5b7da" # Web ACL ARN 변경
 
-resource "aws_api_gateway_resource" "Test_gateway" {
-  rest_api_id = aws_api_gateway_rest_api.Test_gateway.id
-  parent_id   = aws_api_gateway_rest_api.Test_gateway.root_resource_id
-  path_part   = "example"
-}
+#   log_destination_configs = [
+#     aws_cloudwatch_log_group.waf_log_group.arn
+#   ]
+# }
 
-resource "aws_api_gateway_method" "Test_gateway" {
-  rest_api_id   = aws_api_gateway_rest_api.Test_gateway.id
-  resource_id   = aws_api_gateway_resource.Test_gateway.id
-  http_method   = "GET"
-  authorization = "NONE"
-}
+# # CloudWatch Log 그룹 설정
+# resource "aws_cloudwatch_log_group" "waf_log_group" {
+#   name              = "cloutrail-log-group"
+#   retention_in_days = 30
+# }
 
-resource "aws_api_gateway_integration" "Test_gateway_integration" {
-  rest_api_id             = aws_api_gateway_rest_api.Test_gateway.id
-  resource_id             = aws_api_gateway_resource.Test_gateway.id
-  http_method             = aws_api_gateway_method.Test_gateway.http_method
-  integration_http_method = "GET"
-  type                    = "MOCK"
-}
+# # IAM 역할 생성 (WAF 로그 전송을 위한 권한 부여)
+# resource "aws_iam_role" "waf_logging_role" {
+#   name               = "waf-logging-role"
+#   assume_role_policy = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Principal": {
+#         "Service": "waf.amazonaws.com"
+#       },
+#       "Action": "sts:AssumeRole"
+#     }
+#   ]
+# }
+# EOF
+# }
 
-resource "aws_api_gateway_deployment" "Test_gateway" {
-  rest_api_id = aws_api_gateway_rest_api.Test_gateway.id
-  stage_name  = "dev"
+# # IAM 정책 생성
+# resource "aws_iam_policy" "waf_logging_policy" {
+#   name        = "waf-logging-policy"
+#   description = "Policy for WAF to send logs to CloudWatch"
 
-  depends_on = [
-    aws_api_gateway_method.Test_gateway,
-    aws_api_gateway_integration.Test_gateway_integration
-  ]
-}
+#   policy = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Action": [
+#         "logs:CreateLogGroup",
+#         "logs:CreateLogStream",
+#         "logs:PutLogEvents",
+#         "logs:DescribeLogGroups",
+#         "logs:DescribeLogStreams"
+#       ],
+#       "Resource": "${aws_cloudwatch_log_group.waf_log_group.arn}:*"
+#     }
+#   ]
+# }
+# EOF
+# }
 
-resource "aws_api_gateway_stage" "Test_gateway_stage" {
-  stage_name    = "prod"
-  rest_api_id   = aws_api_gateway_rest_api.Test_gateway.id
-  deployment_id = aws_api_gateway_deployment.Test_gateway.id
-}
+# # 역할과 정책 연결
+# resource "aws_iam_role_policy_attachment" "waf_logging_role_attach" {
+#   role       = aws_iam_role.waf_logging_role.name
+#   policy_arn = aws_iam_policy.waf_logging_policy.arn
+# }
 
-# WAF 설정
-resource "aws_wafv2_web_acl" "Test_Waf" {
-  name        = "Test-waf-acl"
-  description = "WAF Web ACL for API Gateway"
-  scope       = "REGIONAL"
+# # CloudTrail 설정 (로그 기록 활성화)
+# resource "aws_cloudtrail" "cloudtrail" {
+#   name                          = "cloudtrail"
+#   s3_bucket_name                = aws_s3_bucket.cloudtrail_bucket.bucket
+#   is_multi_region_trail         = true
+#   include_global_service_events = true
+#   enable_logging                = true
 
-  default_action {
-    allow {}
-  }
-
-  # SQL Injection 방지 규칙
-  rule {
-    name     = "SQLInjectionRule"
-    priority = 1
-
-    action {
-      block {}
-    }
-
-    statement {
-      sqli_match_statement {
-        field_to_match {
-          body {}
-        }
-        text_transformation {
-          priority = 0
-          type     = "URL_DECODE"
-        }
-        text_transformation {
-          priority = 1
-          type     = "HTML_ENTITY_DECODE"
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "SQLInjectionRule"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  # XSS 방지 규칙
-  rule {
-    name     = "XSSRule"
-    priority = 2
-
-    action {
-      block {}
-    }
-
-    statement {
-      xss_match_statement {
-        field_to_match {
-          body {} # 요청 본문에서 XSS 탐지
-        }
-        text_transformation {
-          priority = 0
-          type     = "URL_DECODE"
-        }
-        text_transformation {
-          priority = 1
-          type     = "HTML_ENTITY_DECODE"
-        }
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "XSSRule"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  visibility_config {
-    cloudwatch_metrics_enabled = true
-    metric_name                = "Test_Waf"
-    sampled_requests_enabled   = true
-  }
-}
-
+#   event_selector {
+#     read_write_type           = "All"
+#     include_management_events = true
+#   }
+# }
 

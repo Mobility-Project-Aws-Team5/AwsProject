@@ -185,36 +185,47 @@ resource "aws_cloudwatch_dashboard" "example" {
       },
 
       {
-        type = "metric",
+        type = "text",
         properties = {
-          metrics = [
-            [ "AWS/WAFV2", "BlockedRequests", "WebACL", aws_wafv2_web_acl.Test_Waf.name, "RuleName", "SQLInjectionRule" ]
-          ],
-          region  = "ap-northeast-2",
-          stat    = "Sum",
-          title   = "SQL Injection Blocked Requests"
+          markdown = "# WAF Blocked Requests Monitoring"
         },
         x      = 0,
         y      = 21,
-        width  = 6,
-        height = 6
+        width  = 18,
+        height = 1
       },
 
-      # XSS 차단 규칙 모니터링
       {
         type = "metric",
         properties = {
           metrics = [
-            [ "AWS/WAFV2", "BlockedRequests", "WebACL", aws_wafv2_web_acl.Test_Waf.name, "RuleName", "XSSRule" ]
+            [ "AWS/WAFV2", "BlockedRequests", "WebACL", "c7ccc4ba-eca8-4829-839c-3db89c42fd52", "Rule", "ALL" ]
           ],
-          region  = "ap-northeast-2",
-          stat    = "Sum",
-          title   = "XSS Blocked Requests"
+          title = "Blocked Requests (Total)",
+          region = "ap-northeast-2",
+          stat = "Sum",
+          period = 300, # 5분 간격
+          width = 9,
+          height = 6
         },
-        x      = 6,
-        y      = 21,
-        width  = 6,
-        height = 6
+        x = 6,
+        y = 22
+      },
+      {
+        type = "metric",
+        properties = {
+          metrics = [
+            [ "AWS/WAFV2", "BlockedRequests", "WebACL", "c7ccc4ba-eca8-4829-839c-3db89c42fd52", "Rule", "AWS-AWSManagedRulesSQLiRuleSet" ]
+          ],
+          title = "SQL Injection Blocked Requests",
+          region = "ap-northeast-2",
+          stat = "Sum",
+          period = 300,
+          width = 9,
+          height = 6
+        },
+        x = 0,
+        y = 22
       }
     ]
   })
