@@ -65,7 +65,7 @@ jobs:
         git fetch origin
         git checkout test
 
-        git merge origin/dev --no-commit --no-ff
+        git merge origin/dev --allow-unrelated-histories --no-commit --no-ff
         git commit -m "Sync changes from dev branch"
 
         git push origin test
