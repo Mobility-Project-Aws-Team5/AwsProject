@@ -1,0 +1,84 @@
+name: Dev Branch CI
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  backend-and-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. 코드 체크아웃
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Node.js 설정
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    #. Docker 설정
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    # 3. Backend 작업
+    - name: Install Backend Dependencies
+      working-directory: ./carrot_server
+      run: npm install
+
+    - name: Run Backend Tests
+      working-directory: ./carrot_server
+      run: npm test
+    
+    - name: docker build
+      working-directory: ./carrot_server
+      run: docker build -t moonjs/dev-flt-server:latest .
+
+    # flutter 설치
+    - name: Install flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
+
+    # 4. Frontend 작업
+    - name: Install Frontend Dependencies
+      working-directory: ./car_platform_app
+      run: flutter pub get
+
+    - name: run flutter tests
+      working-directory: ./car_platform_app
+      run: flutter test
+
+    - name: build flutter web
+      working-directory: ./car_platform_app
+      run: flutter build web
+
+    - name: build docker
+      working-directory: ./car_platform_app/build/web
+      run: docker build -t moonjs/dev-flt-web:latest .
+
+    #5 Test 브런치로 병합 작업
+    - name: Merge dev into test
+      run: |
+        # Git 설정 (GitHub Actions에서 사용될 사용자 정보 설정)
+        git config --global user.name "junsu"
+        git config --global user.email "junsu1211@gmail.com"
+        
+        # `test` 브랜치 체크아웃
+        git fetch origin
+        git checkout test
+
+        # `dev` 브랜치의 변경사항 병합
+        git merge origin/dev --no-commit
+
+        # 병합된 내용 커밋
+        git commit -m "Sync changes from dev branch"
+
+        # 병합 후 `test` 브랜치에 푸시
+        git push origin test 
