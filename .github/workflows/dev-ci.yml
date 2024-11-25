@@ -1,0 +1,56 @@
+name: Dev Branch CI
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  backend-and-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. 코드 체크아웃
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+     # 2. Node.js 설정
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+     #. Docker 설정
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    # # 3. Backend 작업
+    - name: Install Backend Dependencies
+      working-directory: ./carrot_server
+      run: npm install
+    
+    - name: docker build
+      working-directory: ./carrot_server
+      run: docker build -t moonjs/dev-flt-server:latest .
+
+    # # flutter 설치
+    - name: Install flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.4'
+
+      #4. Frontend 작업
+    - name: Install Frontend Dependencies
+      working-directory: ./car_platform_app
+      run: flutter pub get
+
+    - name: build flutter web
+      working-directory: ./car_platform_app
+      run: flutter build web
+
+    - name: build docker
+      working-directory: ./car_platform_app/build
+      run: docker build -t moonjs/dev-flt-web:latest .
