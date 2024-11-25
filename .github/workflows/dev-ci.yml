@@ -32,6 +32,15 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }} # Docker Hub 사용자명
         password: ${{ secrets.DOCKER_PASSWORD }} # Docker Hub 비밀번호
  
+    - name: docker build
+      working-directory: ./carrot_server
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/dev-flt-server:latest .
+      
+    # 배포 단계
+    - name: build docker
+      working-directory: ./car_platform_app/build
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/dev-flt-web:latest .
+
     - name: push docker image
       working-directory: ./car_platform_app/build
       run: |
