@@ -1,10 +1,3 @@
-# # WAF와 API Gateway 연동
-# resource "aws_wafv2_web_acl_association" "Test_Waf_association" {
-#   resource_arn = aws_api_gateway_stage.Test_gateway_stage.arn
-#   web_acl_arn  = aws_wafv2_web_acl.Test_Waf.arn
-# }
-
-
 # CloudWatch Dashboard for Multiple Instances and Load Balancer RequestCount
 resource "aws_cloudwatch_dashboard" "example" {
   dashboard_name = "MyDashboard"
@@ -85,7 +78,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         type = "metric",
         properties = {
           metrics = [
-            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/dev-eks-alb/82c5aae9bbe578db" ]  # ALB 이름과 ARN
+            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/dev-eks-alb/07d1f0a9af014566" ]  # ALB 이름과 ARN
           ],
           region  = "ap-northeast-2",
           stat    = "Sum",
@@ -101,7 +94,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         type = "metric",
         properties = {
           metrics = [
-            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/test-eks-alb/79bcc0942632d75d" ]  # ALB 이름과 ARN
+            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/test-eks-alb/1cfdd8c01b0efeed" ]  # ALB 이름과 ARN
           ],
           region  = "ap-northeast-2",
           stat    = "Sum",
@@ -117,7 +110,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         type = "metric",
         properties = {
           metrics = [
-            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/prod-eks-alb/f5e5d82a57406fc6" ]  # ALB 이름과 ARN
+            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/prod-eks-alb/3151fd6a43643b4e" ]  # ALB 이름과 ARN
           ],
           region  = "ap-northeast-2",
           stat    = "Sum",
@@ -182,7 +175,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         y      = 16,
         width  = 9,
         height = 6
-      },      
+      }    
     ]
   })
 }

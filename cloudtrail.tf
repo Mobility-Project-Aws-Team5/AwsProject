@@ -45,9 +45,6 @@ resource "aws_kms_key" "mykey" {
   })
 }
 
-
-
-
 resource "aws_s3_bucket" "cloudtrail_bucket" {
   bucket = "cloudtrail-log-bucket-team5"
   acl    = "private"
