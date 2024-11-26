@@ -119,6 +119,14 @@ output "bastion_ip" {
   description = "bastion-host public IP"
 }
 
+resource "aws_kms_key" "mykey" {
+  description             = "mykey KMS key" # trail s3 bucket encryption
+  key_usage               = "SIGN_VERIFY" # Default usage for most cases
+  customer_master_key_spec = "RSA_2048" # Symmetric key type
+  deletion_window_in_days = 7 # Retention period after deletion (7-30 days)
+}
+
+
 
 /*
 C:\terraform\workspace> cd .\00_eks\
