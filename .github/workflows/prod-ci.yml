@@ -31,15 +31,14 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }} # Docker Hub 사용자명
         password: ${{ secrets.DOCKER_PASSWORD }} # Docker Hub 비밀번호
- 
+    
+    - name: Login
+      run: |
+
     # # 3. Backend 작업
     - name: Install Backend Dependencies
       working-directory: ./carrot_server
       run: npm install
-    
-    - name: docker build
-      working-directory: ./carrot_server
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/prod-flt-server:latest .
 
     # # flutter 설치
     - name: Install flutter
@@ -66,15 +65,20 @@ jobs:
     # 통합 테스팅
     - name: start integration_testing
       working-directory: ./car_platform_app
-      run: flutter drive \ --driver=test_driver/integration_test.dart \ --target=integration_test/app_test.dart \ -d chrome  
+      run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome  
       continue-on-error: true
 
     # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/prod-flt-web:latest .
-
-    - name: push docker image
       run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/prod-flt-web:latest .
         docker push ${{ secrets.DOCKER_USERNAME }}/prod-flt-web:latest
+
+    - name: docker build
+      working-directory: ./carrot_server
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/prod-flt-server:latest .
         docker push ${{ secrets.DOCKER_USERNAME }}/prod-flt-server:latest
