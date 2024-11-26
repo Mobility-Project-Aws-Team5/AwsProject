@@ -39,7 +39,7 @@ jobs:
     
     - name: docker build
       working-directory: ./carrot_server
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/test-flt-server:latest .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/test-flt-servers:latest .
 
     # # flutter 설치
     - name: Install flutter
@@ -66,18 +66,15 @@ jobs:
     # 통합 테스팅
     - name: start integration_testing
       working-directory: ./car_platform_app
-      run: flutter drive \
-          --driver=test_driver/integration_test.dart \
-          --target=integration_test/app_test.dart \
-          -d chrome  
+      run: flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart -d chrome  
       continue-on-error: true
 
     # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/test-flt-web:latest .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/test-flt-webs:latest .
 
     - name: push docker image
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/test-flt-web:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/test-flt-server:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/test-flt-webs:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/test-flt-servers:latest
