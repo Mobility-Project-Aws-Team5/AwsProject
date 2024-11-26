@@ -78,7 +78,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         type = "metric",
         properties = {
           metrics = [
-            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/dev-eks-alb/07d1f0a9af014566" ]  # ALB 이름과 ARN
+            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/dev-eks-alb/fdd2b733d39a2b5d" ]  # ALB 이름과 ARN
           ],
           region  = "ap-northeast-2",
           stat    = "Sum",
@@ -110,7 +110,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         type = "metric",
         properties = {
           metrics = [
-            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/prod-eks-alb/3151fd6a43643b4e" ]  # ALB 이름과 ARN
+            [ "AWS/ApplicationELB", "RequestCount", "LoadBalancer", "app/prod-eks-alb/50187c3d4999610d" ]  # ALB 이름과 ARN
           ],
           region  = "ap-northeast-2",
           stat    = "Sum",
