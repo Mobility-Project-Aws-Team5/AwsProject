@@ -64,16 +64,11 @@ jobs:
       continue-on-error: true
 
     # 통합 테스팅
-    - name: set chromedriver
-      working-directory: ./car_platform_app
-      run: chromedriver --port=4444
-      continue-on-error: true
-    
     - name: start integration_testing
       working-directory: ./car_platform_app
       run: flutter drive \ --driver=test_driver/integration_test.dart \ --target=integration_test/app_test.dart \ -d chrome  
       continue-on-error: true
-      
+
     # 배포 단계
     - name: build docker
       working-directory: ./car_platform_app/build
