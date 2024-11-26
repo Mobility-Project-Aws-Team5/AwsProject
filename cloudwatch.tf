@@ -1,8 +1,8 @@
-# WAF와 API Gateway 연동
-resource "aws_wafv2_web_acl_association" "Test_Waf_association" {
-  resource_arn = aws_api_gateway_stage.Test_gateway_stage.arn
-  web_acl_arn  = aws_wafv2_web_acl.Test_Waf.arn
-}
+# # WAF와 API Gateway 연동
+# resource "aws_wafv2_web_acl_association" "Test_Waf_association" {
+#   resource_arn = aws_api_gateway_stage.Test_gateway_stage.arn
+#   web_acl_arn  = aws_wafv2_web_acl.Test_Waf.arn
+# }
 
 
 # CloudWatch Dashboard for Multiple Instances and Load Balancer RequestCount
@@ -182,51 +182,7 @@ resource "aws_cloudwatch_dashboard" "example" {
         y      = 16,
         width  = 9,
         height = 6
-      },
-
-      {
-        type = "text",
-        properties = {
-          markdown = "# WAF Blocked Requests Monitoring"
-        },
-        x      = 0,
-        y      = 21,
-        width  = 18,
-        height = 1
-      },
-
-      {
-        type = "metric",
-        properties = {
-          metrics = [
-            [ "AWS/WAFV2", "BlockedRequests", "WebACL", "c7ccc4ba-eca8-4829-839c-3db89c42fd52", "Rule", "ALL" ]
-          ],
-          title = "Blocked Requests (Total)",
-          region = "ap-northeast-2",
-          stat = "Sum",
-          period = 300, # 5분 간격
-          width = 9,
-          height = 6
-        },
-        x = 6,
-        y = 22
-      },
-      {
-        type = "metric",
-        properties = {
-          metrics = [
-            [ "AWS/WAFV2", "BlockedRequests", "WebACL", "c7ccc4ba-eca8-4829-839c-3db89c42fd52", "Rule", "AWS-AWSManagedRulesSQLiRuleSet" ]
-          ],
-          title = "SQL Injection Blocked Requests",
-          region = "ap-northeast-2",
-          stat = "Sum",
-          period = 300,
-          width = 9,
-          height = 6
-        },
-        x = 0,
-        y = 22
-      }
+      },      
     ]
   })
 }

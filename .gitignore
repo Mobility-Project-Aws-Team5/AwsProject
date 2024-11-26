@@ -9,3 +9,5 @@ terraform/workspace/AwsProject/00_eks/.terraform/providers/registry.terraform.io
 terraform/workspace/AwsProject/00_eks/.terraform/providers/registry.terraform.io/hashicorp/aws/*/windows_amd64/
 
 terraform.tfstate
+
+sbom.json

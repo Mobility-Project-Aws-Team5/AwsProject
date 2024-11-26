@@ -1,0 +1,604 @@
+{
+  "header": "",
+  "footer": "",
+  "inputs": [
+    {
+      "name": "access_key",
+      "type": "string",
+      "description": null,
+      "default": null,
+      "required": true
+    },
+    {
+      "name": "secret_key",
+      "type": "string",
+      "description": null,
+      "default": null,
+      "required": true
+    }
+  ],
+  "modules": [
+    {
+      "name": "add_cluster_sg",
+      "source": "terraform-aws-modules/security-group/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "add_node_sg",
+      "source": "terraform-aws-modules/security-group/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "bastion_host",
+      "source": "terraform-aws-modules/ec2-instance/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "bastion_host_sg",
+      "source": "terraform-aws-modules/security-group/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "eks",
+      "source": "terraform-aws-modules/eks/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "nat_instance",
+      "source": "terraform-aws-modules/ec2-instance/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "nat_sg",
+      "source": "terraform-aws-modules/security-group/aws",
+      "version": "",
+      "description": null
+    },
+    {
+      "name": "vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "",
+      "description": null
+    }
+  ],
+  "outputs": [
+    {
+      "name": "bastion_ip",
+      "description": "bastion-host public IP"
+    }
+  ],
+  "providers": [
+    {
+      "name": "aws",
+      "alias": null,
+      "version": "5.77.0"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "aws",
+      "version": "~\u003e 5.0"
+    }
+  ],
+  "resources": [
+    {
+      "type": "cloudtrail",
+      "name": "main_cloudtrail",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "cloudwatch_dashboard",
+      "name": "example",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "CloudWatch Dashboard for Multiple Instances and Load Balancer RequestCount"
+    },
+    {
+      "type": "cloudwatch_event_rule",
+      "name": "ec2_state_change",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "CloudWatch Event Rule - EC2 인스턴스 상태 변경 시 로그 기록"
+    },
+    {
+      "type": "cloudwatch_event_target",
+      "name": "ec2_state_change_target",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "cloudwatch_log_group",
+      "name": "cloudtrail_logs",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "cloudwatch_metric_alarm",
+      "name": "cpu_alarm_bastion",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "CloudWatch Alarm for High CPU Usage on Bastion-host (Instance 1)"
+    },
+    {
+      "type": "cloudwatch_metric_alarm",
+      "name": "cpu_alarm_private_subnet_1",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "CloudWatch Alarm for High CPU Usage on Private-Subnet_1 (Instance 2)"
+    },
+    {
+      "type": "cloudwatch_metric_alarm",
+      "name": "cpu_alarm_private_subnet_2",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "CloudWatch Alarm for High CPU Usage on Private-Subnet_2 (Instance 3)"
+    },
+    {
+      "type": "cloudwatch_metric_alarm",
+      "name": "cpu_high_alarm",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "CloudWatch Metric Alarm 생성"
+    },
+    {
+      "type": "iam_group",
+      "name": "developer_team",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "그룹 정의"
+    },
+    {
+      "type": "iam_group",
+      "name": "infra_team",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group",
+      "name": "security_team",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_membership",
+      "name": "developer_team_membership",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "사용자 그룹에 추가"
+    },
+    {
+      "type": "iam_group_membership",
+      "name": "infra_team_membership",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_membership",
+      "name": "security_team_membership",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "developer_team_cloudwatch",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "EC2 읽기 전용 접근 권한"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "developer_team_network_readonly",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "서브넷, IGW, 라우팅 테이블, NAT 및 방화벽에 대한 읽기 권한 정책 첨부"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "developer_team_vpn_policy_attachment",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "elb_policy_attachment",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "infra_team_gateway",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 AmazonAPIGatewayAdministrator 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "infra_team_network_readonly",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "infra_team_s3",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 AmazonS3FullAccess 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "route53_policy_attachment",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_cloudtrail",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 CloudTrailFullAccess 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_cloudwatch",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_custom_ec2",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 사용자 정의 EC2 보안 그룹 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_gateway",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 AmazonAPIGatewayAdministrator 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_iam",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 IAMFullAccess 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_route53_attachment",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_s3",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 AmazonS3FullAccess 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_sns",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 AmazonSNSFullAccess 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "security_team_waf_shield",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "보안팀에 AWSWAFFullAccess 정책 부여"
+    },
+    {
+      "type": "iam_group_policy_attachment",
+      "name": "vpc_network_management_attachment",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "cloudtrail_cloudwatch_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "developer_team_vpn_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "infra_team_elb_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "route53_custom_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "security_group_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "security_team_route53_write_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_policy",
+      "name": "security_team_vpc_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_role",
+      "name": "cloudtrail_cloudwatch_role",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_role_policy",
+      "name": "ec2_state_change_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "인스턴스 상태 변경 이벤트에 대해 CloudWatch Logs에 로그를 기록할 수 있도록 권한 추가"
+    },
+    {
+      "type": "iam_role_policy_attachment",
+      "name": "cloudtrail_cloudwatch_attach",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_user",
+      "name": "gyudol",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_user",
+      "name": "joonsu",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "사용자 정의"
+    },
+    {
+      "type": "iam_user",
+      "name": "taeyoon",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "iam_user",
+      "name": "yearhui",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "kms_key",
+      "name": "mykey",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "route",
+      "name": "private_subnet",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "Private Subnet Routing Table ( dest: NAT Instance ENI )"
+    },
+    {
+      "type": "s3_bucket",
+      "name": "cloudtrail_bucket",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "s3_bucket_policy",
+      "name": "cloudtrail_policy",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "sns_topic",
+      "name": "cpu_alarm_sns",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "SNS Topic 생성 (CloudWatch 알람을 구독할 주제)"
+    },
+    {
+      "type": "sns_topic",
+      "name": "example",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "SNS Topic for Alarm Notifications"
+    },
+    {
+      "type": "sns_topic_subscription",
+      "name": "cpu_alarm_subscription",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "SNS Topic을 CloudWatch Logs에 연결하는 구독 생성"
+    },
+    {
+      "type": "sns_topic_subscription",
+      "name": "example",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "managed",
+      "version": "latest",
+      "description": "SNS Subscription for Email Notifications"
+    },
+    {
+      "type": "ami",
+      "name": "al2023",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "data",
+      "version": "latest",
+      "description": null
+    },
+    {
+      "type": "caller_identity",
+      "name": "current",
+      "provider": "aws",
+      "source": "hashicorp/aws",
+      "mode": "data",
+      "version": "latest",
+      "description": null
+    }
+  ]
+}
