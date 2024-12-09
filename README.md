@@ -1,5 +1,7 @@
 # AwsProject
 
+- 현대오토에버 모빌리티 스쿨 5팀 - 하이브리드 클라우드 기반 퍼블릭 클라우드 구축(AWS)
+  
 ![image](https://github.com/user-attachments/assets/394aaf9f-d4d0-4d11-903f-c3bc54141c13)
 
 ![image](https://github.com/user-attachments/assets/40094fb8-d11d-4a15-89fc-f0ab0d6e2d00)
